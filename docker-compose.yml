@@ -25,15 +25,5 @@ services:
       timeout: 5s
       retries: 5
 
-  tests:
-    build: .
-    command: pytest --maxfail=1 --disable-warnings -q
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/password_manager
-      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
-    depends_on:
-      db: 
-        condition: service_healthy
-
 volumes:
   pgdata:
