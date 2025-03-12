@@ -1,0 +1,39 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: password_manager
+    ports:
+      - "5431:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  tests:
+    build: .
+    command: pytest --maxfail=1 --disable-warnings -q
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/password_manager
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+    depends_on:
+      db: 
+        condition: service_healthy
+
+volumes:
+  pgdata:
