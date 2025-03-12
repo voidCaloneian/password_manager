@@ -2,7 +2,7 @@
 **Менеджер паролей на FastAPI**
 
 ## Установка и запуск проекта
-1. Клонирование репозитория:  
+1. Клонирование репозитория: 
    ```bash
    git clone git@github.com:voidCaloneian/password_manager.git 
    cd password_manager
@@ -17,8 +17,10 @@
    docker compose exec web alembic revision --autogenerate -m "init"
    docker compose exec web alembic upgrade head
    ```
-5. Опциональный запуск тестов
-   ```docker compose exec web pytest```
+4. Опциональный запуск тестов
+   ```bash
+   docker compose exec web pytest
+   ```
 
 - **Сервис будет доступен по адресу:** ```http://localhost:8000```
 - **API документация будет доступна по адресу:** ```http://localhost:8000/docs```
